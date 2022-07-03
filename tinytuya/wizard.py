@@ -334,11 +334,11 @@ def wizard(color=True, retries=None, forcescan=False):
         item = {}
         item['name'] = i['name'].strip()
         item['id'] = i['id']
-        item['key'] = i['local_key']
         try:
             item['mac'] = next((m['mac'] for m in json_mac_data['result'] if m['id'] == i['id']), "N/A")
             if forcescan:
                 item['ip'] = ip_list[item['mac']]
+            item['key'] = i['local_key']
         except:
             pass
         tuyadevices.append(item)
@@ -394,7 +394,10 @@ def wizard(color=True, retries=None, forcescan=False):
             item['ip'] = ip
             item['ver'] = ver
             item['id'] = i['id']
-            item['key'] = i['key']
+            try:
+                item['key'] = i['key']
+            except:
+                pass
             if ip == 0:
                 print("    %s[%s] - %s%s - %sError: No IP found%s" %
                       (subbold, name, dim, ip, alert, normal))
